@@ -25,6 +25,11 @@
                             <i class="ri-pencil-line"></i> Create Post
                         </a>
                     </li>
+                      <li>
+                        <a href="./categories.php" class="nav-link text-light d-flex align-items-center gap-3 px-3 py-2 rounded">
+                            <i class="ri-pencil-line"></i> Categories
+                        </a>
+                    </li>
                     <li>
                         <a href="./profile-settings.php" class="nav-link text-light d-flex align-items-center gap-3 px-3 py-2 rounded">
                             <i class="ri-settings-line"></i> Settings
