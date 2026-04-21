@@ -1,79 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Post - BlogHub</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.0.0/fonts/remixicon.css" rel="stylesheet">
-    <link rel="stylesheet" href="../styles/styles.css">
-    <!-- Quill Editor -->
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-</head>
+<?php require_once "./dashboard_header.php" ?>
 
 <body>
     <div class="d-flex min-vh-100">
         <!-- Sidebar -->
-        <nav class="sidebar bg-dark text-light p-4"
-            style="width: 260px; position: fixed; height: 100vh; overflow-y: auto;">
-            <div class="mb-4">
-                <a href="../index.html" class="text-light text-decoration-none d-flex align-items-center gap-2">
-                    <i class="ri-quill-pen-line fs-5"></i>
-                    <span class="fw-bold">BlogHub</span>
-                </a>
-            </div>
-
-            <div class="mb-4">
-                <h6 class="text-muted small text-uppercase">Menu</h6>
-                <ul class="list-unstyled">
-                    <li>
-                        <a href="index.html"
-                            class="nav-link text-light d-flex align-items-center gap-3 px-3 py-2 rounded">
-                            <i class="ri-home-line"></i> Dashboard
-                        </a>
-                    </li>
-                    <li>
-                        <a href="posts.html"
-                            class="nav-link text-light d-flex align-items-center gap-3 px-3 py-2 rounded">
-                            <i class="ri-article-line"></i> My Posts
-                        </a>
-                    </li>
-                    <li>
-                        <a href="create-post.html"
-                            class="nav-link active text-light d-flex align-items-center gap-3 px-3 py-2 rounded">
-                            <i class="ri-pencil-line"></i> Create Post
-                        </a>
-                    </li>
-                    <li>
-                        <a href="profile-settings.html"
-                            class="nav-link text-light d-flex align-items-center gap-3 px-3 py-2 rounded">
-                            <i class="ri-settings-line"></i> Settings
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <hr class="bg-secondary">
-
-            <div class="mb-4">
-                <h6 class="text-muted small text-uppercase">Account</h6>
-                <ul class="list-unstyled">
-                    <li>
-                        <a href="../profile.html"
-                            class="nav-link text-light d-flex align-items-center gap-3 px-3 py-2 rounded">
-                            <i class="ri-user-line"></i> View Profile
-                        </a>
-                    </li>
-                    <li>
-                        <a href="../index.html"
-                            class="nav-link text-light d-flex align-items-center gap-3 px-3 py-2 rounded">
-                            <i class="ri-logout-box-line"></i> Logout
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+        <?php require_once "./dashboard_sidebar.php" ?>
 
         <!-- Main Content -->
         <main class="flex-grow-1 ms-md-0" style="margin-left: 260px !important;">
@@ -145,11 +75,19 @@
             theme: 'snow',
             modules: {
                 toolbar: [
-                    [{ 'header': [1, 2, 3, false] }],
+                    [{
+                        'header': [1, 2, 3, false]
+                    }],
                     ['bold', 'italic', 'underline', 'strike'],
                     ['blockquote', 'code-block'],
-                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                    [{ 'align': [] }],
+                    [{
+                        'list': 'ordered'
+                    }, {
+                        'list': 'bullet'
+                    }],
+                    [{
+                        'align': []
+                    }],
                     ['link', 'image'],
                     ['clean']
                 ]
@@ -176,8 +114,6 @@
 
             // Now you can send 'postHTML' to your database/backend
         });
-
-
     </script>
 </body>
 

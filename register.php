@@ -1,5 +1,5 @@
 <?php require_once "./header.php" ?>
-
+<?php session_start() ?>
 
 <body class="bg-light">
 
@@ -29,6 +29,11 @@
                                         </span>
                                         <input type="text" name="name" class="form-control border-start-0" id="fullname" placeholder="John Doe" required>
                                     </div>
+                                    <input type="text" name="name" class="form-control" id="namelabel" placeholder="student name">
+                                    <?php if (isset($_SESSION['name_error']) && !empty($_SESSION['name_error'])) { ?>
+                                        <div class="alert alert-danger my-1"> <?php echo $_SESSION['name_error'];
+                                                                                unset($_SESSION['name_error']) ?> </div>
+                                    <?php } ?>
                                 </div>
 
                                 <!-- Email -->
@@ -40,17 +45,25 @@
                                         </span>
                                         <input type="email" name="email" class="form-control border-start-0" id="email" placeholder="you@example.com" required>
                                     </div>
+                                    <?php if (isset($_SESSION['email_error']) && !empty($_SESSION['email_error'])) { ?>
+                                        <div class="alert alert-danger my-1"> <?php echo $_SESSION['email_error'];
+                                                                                unset($_SESSION['email_error']) ?> </div>
+                                    <?php } ?>
                                 </div>
 
-                                  <!-- age -->
+                                <!-- age -->
                                 <div class="mb-3">
                                     <label for="email" class="form-label fw-bold">Age</label>
                                     <div class="input-group">
                                         <span class="input-group-text bg-transparent border-end-0">
                                             <i class="ri-calendar-line text-muted"></i>
                                         </span>
-                                        <input type="number" class="form-control border-start-0" name="age" id="email"  required>
+                                        <input type="number" class="form-control border-start-0" name="age" id="email" required>
                                     </div>
+                                    <?php if (isset($_SESSION['age_error']) && !empty($_SESSION['age_error'])) { ?>
+                                        <div class="alert alert-danger my-1"> <?php echo $_SESSION['age_error'];
+                                                                                unset($_SESSION['age_error']) ?> </div>
+                                    <?php } ?>
                                 </div>
 
 
@@ -60,6 +73,10 @@
                                         <option value="male">Male</option>
                                         <option value="female">Female</option>
                                     </select>
+                                    <?php if (isset($_SESSION['gender_error']) && !empty($_SESSION['gender_error'])) { ?>
+                                        <div class="alert alert-danger my-1"> <?php echo $_SESSION['gender_error'];
+                                                                                unset($_SESSION['gender_error']) ?> </div>
+                                    <?php } ?>
                                 </div>
 
 
@@ -72,8 +89,11 @@
                                         </span>
                                         <input type="password" name="password" class="form-control border-start-0" id="password" placeholder="Create a strong password" required>
                                     </div>
+                                    <?php if (isset($_SESSION['password_error']) && !empty($_SESSION['password_error'])) { ?>
+                                        <div class="alert alert-danger my-1"> <?php echo $_SESSION['password_error'];
+                                                                                unset($_SESSION['password_error']) ?> </div>
+                                    <?php } ?>
                                 </div>
-
 
 
                                 <!-- Register Button -->
@@ -87,7 +107,7 @@
 
                         <!-- Footer -->
                         <div class="card-body p-3 text-center border-top bg-light">
-                            <p class="mb-0">Already have an account? <a href="login.html" class="fw-bold text-primary text-decoration-none">Sign in</a></p>
+                            <p class="mb-0">Already have an account? <a href="./login.php" class="fw-bold text-primary text-decoration-none">Sign in</a></p>
                         </div>
                     </div>
 
