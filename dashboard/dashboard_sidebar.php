@@ -21,7 +21,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="./create-post.php" class="nav-link text-light d-flex align-items-center gap-3 px-3 py-2 rounded">
+                        <a href="./create_post.php" class="nav-link text-light d-flex align-items-center gap-3 px-3 py-2 rounded">
                             <i class="ri-pencil-line"></i> Create Post
                         </a>
                     </li>

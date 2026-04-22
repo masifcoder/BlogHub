@@ -42,6 +42,7 @@ $user = mysqli_fetch_assoc($sel_result);
 if (password_verify($password, $user['password']) === true) {
     $_SESSION['is_login'] = true;
     $_SESSION['name'] = $user['name'];
+    $_SESSION['user_id'] = $user['id'];
      header("Location: dashboard/index.php");
      exit;
 } else {
