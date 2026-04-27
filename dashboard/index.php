@@ -100,7 +100,7 @@
                     <div class="card-header bg-white border-bottom py-3 px-4">
                         <div class="d-flex justify-content-between align-items-center">
                             <h6 class="fw-bold mb-0">Latest Posts</h6>
-                            <a href="create-post.html" class="btn btn-sm btn-primary">
+                            <a href="create_post.php" class="btn btn-sm btn-primary">
                                 <i class="ri-add-line"></i> New Post
                             </a>
                         </div>

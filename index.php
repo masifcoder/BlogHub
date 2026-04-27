@@ -1,4 +1,35 @@
 <?php require_once "./header.php" ?>
+<?php
+
+require_once "./db.php";
+
+// get posts with categoery and user info
+$sql = "SELECT posts.*, users.name as user_name, categories.name as category_name 
+        FROM posts 
+        JOIN users ON posts.user_id = users.id 
+        JOIN categories ON posts.category_id = categories.id 
+        ORDER BY posts.created_at DESC LIMIT 3";
+$result = mysqli_query($conn, $sql);
+$posts = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+// now get top 4 categories with post count
+$sql = "SELECT categories.*, COUNT(posts.id) as post_count 
+        FROM categories 
+        LEFT JOIN posts ON posts.category_id = categories.id 
+        GROUP BY categories.id 
+        ORDER BY post_count DESC LIMIT 4";
+$result = mysqli_query($conn, $sql);
+$categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+
+
+// echo "<pre>";
+// print_r($posts);
+// echo "</pre>";
+// exit;
+
+?>
+
 
 <body>
 
@@ -38,42 +69,18 @@
                 <p class="text-muted">Browse posts by topic</p>
             </div>
             <div class="row g-3">
-                <div class="col-6 col-md-4 col-lg-3">
-                    <a href="posts.html" class="text-decoration-none">
-                        <div class="category-card p-4 text-center rounded border-0 bg-white shadow-sm category-hover">
-                            <i class="ri-terminal-line text-primary" style="font-size: 32px;"></i>
-                            <h6 class="mt-3 fw-bold text-dark">Technology</h6>
-                            <small class="text-muted">245 posts</small>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-6 col-md-4 col-lg-3">
-                    <a href="posts.html" class="text-decoration-none">
-                        <div class="category-card p-4 text-center rounded border-0 bg-white shadow-sm category-hover">
-                            <i class="ri-palette-line text-success" style="font-size: 32px;"></i>
-                            <h6 class="mt-3 fw-bold text-dark">Design</h6>
-                            <small class="text-muted">189 posts</small>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-6 col-md-4 col-lg-3">
-                    <a href="posts.html" class="text-decoration-none">
-                        <div class="category-card p-4 text-center rounded border-0 bg-white shadow-sm category-hover">
-                            <i class="ri-bar-chart-line text-info" style="font-size: 32px;"></i>
-                            <h6 class="mt-3 fw-bold text-dark">Business</h6>
-                            <small class="text-muted">156 posts</small>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-6 col-md-4 col-lg-3">
-                    <a href="posts.html" class="text-decoration-none">
-                        <div class="category-card p-4 text-center rounded border-0 bg-white shadow-sm category-hover">
-                            <i class="ri-book-line text-warning" style="font-size: 32px;"></i>
-                            <h6 class="mt-3 fw-bold text-dark">Education</h6>
-                            <small class="text-muted">234 posts</small>
-                        </div>
-                    </a>
-                </div>
+                <?php foreach ($categories as $category) { ?>
+                    <div class="col-6 col-md-4 col-lg-3">
+                        <a href="posts.php?category=<?php echo $category['id'] ?>" class="text-decoration-none">
+                            <div class="category-card p-4 text-center rounded border-0 bg-white shadow-sm category-hover">
+                                <!-- <i class="ri-book-line text-warning" style="font-size: 32px;"></i> -->
+                                <h6 class="mt-3 fw-bold text-dark"><?php echo $category['name'] ?></h6>
+                                <small class="text-muted"><?php echo $category['post_count'] ?> posts</small>
+                            </div>
+                        </a>
+                    </div>
+                <?php } ?>
+
             </div>
         </div>
     </section>
@@ -86,68 +93,31 @@
                 <p class="text-muted">Top stories trending this week</p>
             </div>
             <div class="row g-4 mb-5">
-                <!-- Featured Post Card 1 -->
-                <div class="col-md-6 col-lg-4">
-                    <a href="post-detail.php" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm border-0 card-hover">
-                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop"
-                                class="card-img-top" alt="Post image">
-                            <div class="card-body">
-                                <span class="badge bg-primary mb-2">Technology</span>
-                                <h5 class="card-title fw-bold text-dark">Getting Started with Web Development</h5>
-                                <p class="card-text text-muted small">Learn the fundamentals of modern web development
-                                    and build your first project.</p>
-                                <div class="d-flex align-items-center mt-3 text-muted small">
-                                    <i class="ri-user-3-line me-2"></i> John Doe
-                                    <i class="ri-calendar-line ms-3 me-2"></i> Mar 15, 2024
+                <?php foreach ($posts as $post) { ?>
+                    <div class="col-md-6 col-lg-4">
+                        <a href="post-detail.php?id=<?php echo $post['id'] ?>" class="text-decoration-none">
+                            <div class="card h-100 shadow-sm border-0 card-hover">
+                                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop"
+                                    class="card-img-top" alt="Post image">
+                                <div class="card-body">
+                                    <span class="badge bg-primary mb-2"><?php echo $post['category_name'] ?></span>
+                                    <h5 class="card-title fw-bold text-dark"><?php echo $post['title'] ?></h5>
+                                    <p class="card-text text-muted small"><?php echo $post['excerpt'] ?></p>
+                                    <div class="d-flex align-items-center mt-3 text-muted small">
+                                        <i class="ri-user-3-line me-2"></i> <?php echo $post['user_name'] ?>
+                                        <i class="ri-calendar-line ms-3 me-2"></i> <?php echo date('M j, Y', strtotime($post['created_at'])) ?>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
+                        </a>
+                    </div>
+                <?php } ?>
 
-                <!-- Featured Post Card 2 -->
-                <div class="col-md-6 col-lg-4">
-                    <a href="post-detail.php" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm border-0 card-hover">
-                            <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop"
-                                class="card-img-top" alt="Post image">
-                            <div class="card-body">
-                                <span class="badge bg-success mb-2">Design</span>
-                                <h5 class="card-title fw-bold text-dark">UI/UX Design Principles 101</h5>
-                                <p class="card-text text-muted small">Master the essentials of creating user-centered
-                                    digital experiences.</p>
-                                <div class="d-flex align-items-center mt-3 text-muted small">
-                                    <i class="ri-user-3-line me-2"></i> Sarah Smith
-                                    <i class="ri-calendar-line ms-3 me-2"></i> Mar 14, 2024
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
 
-                <!-- Featured Post Card 3 -->
-                <div class="col-md-6 col-lg-4">
-                    <a href="post-detail.php" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm border-0 card-hover">
-                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop"
-                                class="card-img-top" alt="Post image">
-                            <div class="card-body">
-                                <span class="badge bg-info mb-2">Business</span>
-                                <h5 class="card-title fw-bold text-dark">Growing Your Online Business</h5>
-                                <p class="card-text text-muted small">Strategies to scale your business and reach more
-                                    customers online.</p>
-                                <div class="d-flex align-items-center mt-3 text-muted small">
-                                    <i class="ri-user-3-line me-2"></i> Mike Johnson
-                                    <i class="ri-calendar-line ms-3 me-2"></i> Mar 13, 2024
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+
             </div>
             <div class="text-center">
-                <a href="posts.html" class="btn btn-outline-primary">View All Posts <i
+                <a href="posts.php" class="btn btn-outline-primary">View All Posts <i
                         class="ri-arrow-right-line"></i></a>
             </div>
         </div>
