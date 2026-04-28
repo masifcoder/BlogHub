@@ -1,5 +1,32 @@
 <?php require_once "./header.php" ?>
 
+<?php
+
+$id  = isset($_GET['id']) ? $_GET['id'] : null;
+
+    if($id == null) {
+        header("Location: index.php");
+        exit;
+    }
+
+require_once "./db.php";
+// get post with categoery and user info
+$sql = "SELECT posts.*, users.name as user_name, users.bio as user_bio, categories.name as category_name 
+        FROM posts 
+        JOIN users ON posts.user_id = users.id 
+        JOIN categories ON posts.category_id = categories.id 
+        WHERE posts.id = $id";
+$result = mysqli_query($conn, $sql);
+$post = mysqli_fetch_assoc($result);
+
+// echo "<pre>";
+// print_r($post);
+// echo "</pre>";
+// exit;
+
+?>
+
+
 <body>
     <?php require_once "./navbar.php" ?>
 
@@ -14,108 +41,29 @@
 
                     <!-- Post Meta -->
                     <div class="d-flex flex-wrap gap-3 mb-4 text-muted small border-bottom pb-4">
-                        <span class="badge bg-primary">Technology</span>
-                        <span><i class="ri-calendar-line"></i> March 15, 2024</span>
+                        <span class="badge bg-primary"><?php echo $post['category_name']; ?></span>
+                        <span><i class="ri-calendar-line"></i> <?php echo date("F j, Y", strtotime($post['created_at'])); ?> </span>
                         <span><i class="ri-time-line"></i> 5 min read</span>
                         <span><i class="ri-eye-line"></i> 2.5K views</span>
                     </div>
 
                     <!-- Post Title -->
-                    <h1 class="display-4 fw-bold mb-4 text-dark">Getting Started with Web Development</h1>
+                    <h1 class="display-4 fw-bold mb-4 text-dark"><?php echo $post['title']; ?></h1>
 
                     <!-- Author Info -->
                     <div class="d-flex align-items-center gap-3 mb-5 pb-4 border-bottom">
                         <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop"
                             alt="Author" class="rounded-circle" width="50" height="50">
                         <div>
-                            <h6 class="fw-bold mb-0">John Doe</h6>
-                            <small class="text-muted">Full Stack Developer | Tech Enthusiast</small>
+                            <h6 class="fw-bold mb-0"><?php echo $post['user_name']; ?></h6>
+                            <!-- <small class="text-muted">Full Stack Developer | Tech Enthusiast</small> -->
                         </div>
                         <button class="btn btn-sm btn-primary ms-auto">Follow</button>
                     </div>
 
                     <!-- Post Body -->
                     <div class="post-body mb-5">
-                        <p class="lead text-muted">Web development has become an essential skill in today's digital
-                            world. Whether you're looking to build a career or just want to create something for the
-                            web, this guide will help you get started.</p>
-
-                        <h3 class="fw-bold mt-5 mb-3">Why Learn Web Development?</h3>
-                        <p>Web development is one of the most in-demand skills in the tech industry. Companies of all
-                            sizes are looking for skilled developers who can create functional, beautiful websites and
-                            applications. As a web developer, you'll have the opportunity to work on projects that
-                            impact millions of users worldwide.</p>
-
-                        <p>Beyond career opportunities, web development is incredibly rewarding. You get to see your
-                            work come to life in the browser, and you can build solutions to real-world problems. The
-                            learning curve is manageable for beginners, yet there's always something new to explore and
-                            master.</p>
-
-                        <h3 class="fw-bold mt-5 mb-3">The Three Pillars of Web Development</h3>
-                        <p>Web development rests on three fundamental technologies:</p>
-
-                        <h5 class="fw-bold mt-4 mb-2"><i class="ri-code-s-line"></i> HTML - The Structure</h5>
-                        <p>HTML (HyperText Markup Language) provides the structure and content of web pages. It uses a
-                            system of tags and elements to organize content, creating the foundation upon which all
-                            websites are built. Learning HTML is the first step in your web development journey.</p>
-
-                        <h5 class="fw-bold mt-4 mb-2"><i class="ri-palette-line"></i> CSS - The Style</h5>
-                        <p>CSS (Cascading Style Sheets) is responsible for the visual presentation of web pages. With
-                            CSS, you can control colors, layouts, typography, and responsive design. Modern CSS has
-                            evolved to include features like Flexbox and Grid, making layout design more intuitive than
-                            ever.</p>
-
-                        <h5 class="fw-bold mt-4 mb-2"><i class="ri-terminal-line"></i> JavaScript - The Interactivity
-                        </h5>
-                        <p>JavaScript brings interactivity to web pages. It allows you to respond to user actions,
-                            validate forms, animate elements, and communicate with servers. JavaScript has evolved from
-                            a simple scripting language to a full-fledged programming language that powers both
-                            front-end and back-end development.</p>
-
-                        <h3 class="fw-bold mt-5 mb-3">Getting Started: Your First Steps</h3>
-                        <p>Here's a practical roadmap to begin your web development journey:</p>
-
-                        <div class="bg-light p-4 rounded mb-4">
-                            <ol class="mb-0">
-                                <li><strong>Learn HTML Basics:</strong> Start by understanding HTML structure, semantic
-                                    elements, and forms.</li>
-                                <li><strong>Master CSS:</strong> Learn styling, layouts with Flexbox and Grid, and
-                                    responsive design principles.</li>
-                                <li><strong>JavaScript Fundamentals:</strong> Understand variables, functions, DOM
-                                    manipulation, and basic algorithms.</li>
-                                <li><strong>Build Projects:</strong> Create small projects to reinforce your learning
-                                    and build a portfolio.</li>
-                                <li><strong>Learn a Framework:</strong> Once comfortable with basics, explore frameworks
-                                    like React or Vue.js.</li>
-                                <li><strong>Explore Back-end:</strong> Learn a server-side language like Python,
-                                    Node.js, or PHP.</li>
-                            </ol>
-                        </div>
-
-                        <h3 class="fw-bold mt-5 mb-3">Resources for Learning</h3>
-                        <p>There are countless free and paid resources available:</p>
-                        <ul>
-                            <li><strong>Websites:</strong> freeCodeCamp, Codecademy, Udemy, Coursera</li>
-                            <li><strong>Documentation:</strong> MDN Web Docs, W3Schools</li>
-                            <li><strong>YouTube Channels:</strong> Traversy Media, The Net Ninja, Code with Harry</li>
-                            <li><strong>Communities:</strong> Stack Overflow, Dev.to, Reddit's r/learnprogramming</li>
-                        </ul>
-
-                        <h3 class="fw-bold mt-5 mb-3">Common Mistakes to Avoid</h3>
-                        <p>As you start your journey, avoid these common pitfalls:</p>
-                        <ul>
-                            <li>Trying to learn everything at once - focus on fundamentals first</li>
-                            <li>Not building projects - hands-on experience is crucial</li>
-                            <li>Copying code without understanding it - ensure you comprehend what you're learning</li>
-                            <li>Neglecting practice - consistent practice is key to mastery</li>
-                            <li>Giving up too early - learning to code takes time and persistence</li>
-                        </ul>
-
-                        <h3 class="fw-bold mt-5 mb-3">Conclusion</h3>
-                        <p>Starting your web development journey is an exciting adventure. With dedication, consistent
-                            practice, and a willingness to learn, you can develop the skills needed to build amazing web
-                            applications. Remember, every expert was once a beginner. Start with the fundamentals, build
-                            projects, and don't hesitate to ask for help from the community. Happy coding!</p>
+                       <?php echo nl2br($post['content']); ?>
                     </div>
 
                     <!-- Share & Actions -->
@@ -204,10 +152,9 @@
                         <div class="card-body text-center">
                             <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop"
                                 alt="Author" class="rounded-circle mb-3" width="100" height="100">
-                            <h5 class="fw-bold">John Doe</h5>
-                            <p class="text-muted small">Full Stack Developer | Tech Enthusiast | Coffee Lover</p>
-                            <p class="small">John has been writing about web development for 3 years and loves helping
-                                others learn to code.</p>
+                            <h5 class="fw-bold"><?php echo $post['user_name']; ?></h5>
+                            <!-- <p class="text-muted small">Full Stack Developer | Tech Enthusiast | Coffee Lover</p> -->
+                            <p class="small"><?php echo $post['user_bio']; ?></p>
                             <button class="btn btn-primary btn-sm w-100">Follow Author</button>
                         </div>
                     </div>

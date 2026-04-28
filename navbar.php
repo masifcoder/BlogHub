@@ -1,7 +1,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
         <div class="container-fluid px-4">
-            <a class="navbar-brand fw-bold fs-5" href="index.html">
+            <a class="navbar-brand fw-bold fs-5" href="index.php">
                 <i class="ri-quill-pen-line"></i> BlogHub
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
