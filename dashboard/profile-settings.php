@@ -11,7 +11,7 @@
     require_once "../db.php";
 
     // get user data from database
-    $sql = "SELECT id, name, bio FROM users WHERE id = $user_id";
+    $sql = "SELECT id, name, bio, image FROM users WHERE id = $user_id";
     $result = mysqli_query($conn, $sql);
     $user = mysqli_fetch_assoc($result);
 
@@ -32,7 +32,7 @@
             <div class="bg-white shadow-sm sticky-top py-3 px-4 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0 fw-bold">Profile Settings</h5>
 
-                
+
                 <?php if (isset($_SESSION['profile_update_success'])): ?>
                     <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
                         <?php echo $_SESSION['profile_update_success']; ?>
@@ -69,8 +69,7 @@
                                     <!-- Profile Picture -->
                                     <div class="mb-4 col-md-12">
                                         <div class="d-flex align-items-center gap-4">
-                                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop"
-                                                alt="Profile" class="rounded-circle" width="100" height="100">
+                                            <img src="../uploads/<?php echo $user['image'] ?>" alt="Profile" class="rounded-circle" width="100" height="100">
                                             <div>
                                                 <input type="file" name="profile_image" class="form-control form-control-sm mb-2"
                                                     accept="image/*">

@@ -15,6 +15,22 @@
                 </button>
             </div>
 
+            <?php if (isset($_SESSION['password_update_error'])): ?>
+                <div class="alert alert-danger alert-dismissible fade show m-4" role="alert">
+                    <?php echo $_SESSION['password_update_error']; ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <?php unset($_SESSION['password_update_error']); ?>
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION['password_update_success'])): ?>
+                <div class="alert alert-success alert-dismissible fade show m-4" role="alert">
+                    <?php echo $_SESSION['password_update_success']; ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <?php unset($_SESSION['password_update_success']); ?>
+            <?php endif; ?>
+
             <!-- Content -->
             <div class="p-4">
                 <div class="row g-4">
@@ -27,17 +43,17 @@
                                 <h6 class="fw-bold mb-0">Security & Password</h6>
                             </div>
                             <div class="card-body p-4">
-                                <form>
+                                <form method="POST" action="handle_password_update.php">
                                     <div class="mb-3">
                                         <label for="current-password" class="form-label fw-bold">Current
                                             Password</label>
-                                        <input type="password" class="form-control" id="current-password"
+                                        <input type="password" name="current_password" class="form-control" id="current-password"
                                             placeholder="Enter your current password">
                                     </div>
 
                                     <div class="mb-3">
                                         <label for="new-password" class="form-label fw-bold">New Password</label>
-                                        <input type="password" class="form-control" id="new-password"
+                                        <input type="password" name="new_password" class="form-control" id="new-password"
                                             placeholder="Enter new password">
                                         <small class="text-muted">At least 8 characters with uppercase, lowercase, and
                                             numbers</small>
@@ -46,7 +62,7 @@
                                     <div class="mb-4">
                                         <label for="confirm-password" class="form-label fw-bold">Confirm
                                             Password</label>
-                                        <input type="password" class="form-control" id="confirm-password"
+                                        <input type="password" name="confirm_password" class="form-control" id="confirm-password"
                                             placeholder="Confirm new password">
                                     </div>
 
