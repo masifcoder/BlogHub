@@ -27,12 +27,17 @@
                     </li>
                       <li>
                         <a href="./categories.php" class="nav-link text-light d-flex align-items-center gap-3 px-3 py-2 rounded">
-                            <i class="ri-pencil-line"></i> Categories
+                            <i class="ri-menu-search-fill"></i> Categories
                         </a>
                     </li>
                     <li>
                         <a href="./profile-settings.php" class="nav-link text-light d-flex align-items-center gap-3 px-3 py-2 rounded">
-                            <i class="ri-settings-line"></i> Settings
+                            <i class="ri-settings-line"></i> Profile Settings
+                        </a>
+                    </li>
+                     <li>
+                        <a href="./password-settings.php" class="nav-link text-light d-flex align-items-center gap-3 px-3 py-2 rounded">
+                            <i class="ri-key-2-fill"></i> Update Password
                         </a>
                     </li>
                 </ul>

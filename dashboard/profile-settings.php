@@ -1,4 +1,25 @@
 <?php require_once "./dashboard_header.php" ?>
+<?php
+
+
+    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+    if ($user_id === null) {
+        header("Location: login.php");
+        exit();
+    }   
+
+    require_once "../db.php";
+
+    // get user data from database
+    $sql = "SELECT id, name, bio FROM users WHERE id = $user_id";
+    $result = mysqli_query($conn, $sql);
+    $user = mysqli_fetch_assoc($result);
+
+    // echo "<pre>";
+    // print_r($user);
+    // echo "</pre>";
+
+?>
 
 <body>
     <div class="d-flex min-vh-100">
@@ -10,6 +31,24 @@
             <!-- Top Bar -->
             <div class="bg-white shadow-sm sticky-top py-3 px-4 d-flex justify-content-between align-items-center">
                 <h5 class="mb-0 fw-bold">Profile Settings</h5>
+
+                
+                <?php if (isset($_SESSION['profile_update_success'])): ?>
+                    <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
+                        <?php echo $_SESSION['profile_update_success']; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php unset($_SESSION['profile_update_success']); ?>
+                <?php endif; ?>
+                <?php if (isset($_SESSION['profile_update_error'])): ?>
+                    <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                        <?php echo $_SESSION['profile_update_error']; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <?php unset($_SESSION['profile_update_error']); ?>
+                <?php endif; ?>
+
+
                 <button class="btn btn-sm btn-light d-md-none">
                     <i class="ri-menu-line"></i>
                 </button>
@@ -26,14 +65,14 @@
                                 <h6 class="fw-bold mb-0">Profile Information</h6>
                             </div>
                             <div class="card-body p-4">
-                                <form class="row">
+                                <form method="post" action="handle_profile_update.php" enctype="multipart/form-data" class="row">
                                     <!-- Profile Picture -->
                                     <div class="mb-4 col-md-12">
                                         <div class="d-flex align-items-center gap-4">
                                             <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop"
                                                 alt="Profile" class="rounded-circle" width="100" height="100">
                                             <div>
-                                                <input type="file" class="form-control form-control-sm mb-2"
+                                                <input type="file" name="profile_image" class="form-control form-control-sm mb-2"
                                                     accept="image/*">
                                                 <small class="text-muted">Recommended: Square image, minimum
                                                     400x400px</small>
@@ -44,20 +83,14 @@
                                     <!-- Full Name -->
                                     <div class="mb-3 col-md-6">
                                         <label for="fullname" class="form-label fw-bold">Full Name</label>
-                                        <input type="text" class="form-control" id="fullname" value="John Doe">
-                                    </div>
-
-                                    <!-- Email -->
-                                    <div class="mb-3 col-md-6">
-                                        <label for="email" class="form-label fw-bold">Email Address</label>
-                                        <input type="email" class="form-control" id="email" value="john@example.com">
+                                        <input type="text" name="fullname" class="form-control" id="fullname" value="<?php echo $user['name']; ?>">
                                     </div>
 
                                     <!-- Bio -->
                                     <div class="mb-3 col-md-12">
                                         <label for="bio" class="form-label fw-bold">Bio</label>
-                                        <textarea class="form-control" id="bio"
-                                            rows="3">Full Stack Developer | Tech Enthusiast | Coffee Lover</textarea>
+                                        <textarea class="form-control" name="bio" id="bio"
+                                            rows="3"><?php echo $user['bio']; ?></textarea>
                                         <small class="text-muted">Max 150 characters</small>
                                     </div>
 
@@ -70,49 +103,8 @@
                                 </form>
                             </div>
                         </div>
-
-
-
                     </div>
 
-                    <!-- Sidebar Settings -->
-                    <div class="col-lg-4">
-                        <!-- Security Settings -->
-                        <div class="card shadow-sm border-0">
-                            <div class="card-header bg-white border-bottom py-3 px-4">
-                                <h6 class="fw-bold mb-0">Security & Password</h6>
-                            </div>
-                            <div class="card-body p-4">
-                                <form>
-                                    <div class="mb-3">
-                                        <label for="current-password" class="form-label fw-bold">Current
-                                            Password</label>
-                                        <input type="password" class="form-control" id="current-password"
-                                            placeholder="Enter your current password">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="new-password" class="form-label fw-bold">New Password</label>
-                                        <input type="password" class="form-control" id="new-password"
-                                            placeholder="Enter new password">
-                                        <small class="text-muted">At least 8 characters with uppercase, lowercase, and
-                                            numbers</small>
-                                    </div>
-
-                                    <div class="mb-4">
-                                        <label for="confirm-password" class="form-label fw-bold">Confirm
-                                            Password</label>
-                                        <input type="password" class="form-control" id="confirm-password"
-                                            placeholder="Confirm new password">
-                                    </div>
-
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="ri-lock-line"></i> Update Password
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </main>
